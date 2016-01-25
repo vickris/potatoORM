@@ -40,4 +40,11 @@ class Model
         new static();
         self::$db->delete(self::$entity_table, $where);
     }
+
+    public static function find($id)
+    {
+        $where = "id = '$id'";
+        new static();
+        self::$db->single(self::$entity_table, $where);
+    }
 }
