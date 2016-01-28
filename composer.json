@@ -1,0 +1,36 @@
+{
+    "name": "vundi/potato-orm",
+    "description": "An ORM package that alllows you to perform basic CRUD operations on any database",
+    "keywords": ["ORM", "PDO", "CRUD", "DATABASE"],
+    "homepage": "https://github.com/andela-cvundi/potatoORM",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christopher Vundi",
+            "email": "chris.vundi@andela.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vundi\\Potato\\" : "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vundi\\Potato\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.1",
+        "satooshi/php-coveralls": "^0.7.0"
+    }
+}
