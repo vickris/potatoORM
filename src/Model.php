@@ -1,5 +1,7 @@
 <?php
 
+namespace Vundi\Potato;
+
 class Model
 {
     private static $db;

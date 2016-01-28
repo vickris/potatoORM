@@ -1,5 +1,9 @@
 <?php
 
+namespace Vundi\Potato;
+
+use PDO;
+
 class Database
 {
     //Instance variables for db connection

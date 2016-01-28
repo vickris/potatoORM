@@ -1,7 +1,8 @@
   <?php
 
-require 'Database.php';
-require 'Model.php';
+require 'vendor/autoload.php';
+
+use Vundi\Potato\Model;
 
 class Person extends Model
 {
