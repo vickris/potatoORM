@@ -4,34 +4,34 @@ class Model
 {
     private static $db;
     protected static $entity_table = 'Person';
+    protected static $entity_class = 'Person';
+    protected static $db_fields = array('FName', 'LName', 'Age', 'Gender');
+    public static $ID;
 
     public function __construct()
     {
-        self::$db = new Database;
+        self::$db = new Database();
     }
 
-    public function add()
+    public function save()
     {
-        foreach ($this->db_fields as $key) {
+        foreach (self::$db_fields as $key) {
             $data[$key] = $this->$key;
         }
-        $this->db->insert($this->entity_table, $data);
+        self::$db->insert(self::$entity_table, $data);
     }
 
     public function update()
     {
-        foreach ($this->db_fields as $key) {
-            if (!is_null($this->key)) {
-                $data[$key] = $this->$key;;
+        foreach (self::$db_fields as $key) {
+            if (!is_null($key)) {
+                $data[$key] = $this->$key;
             }
         }
-        $where = ' ';
-        foreach ($primary_keys as $key) {
-            $where .=' '.$key ." = ".$this->$key." &&";
-        }
+        $where = "id = '".self::$ID."'";
 
         $where = rtrim($where, '&');
-        $this->db->update($this->entity_table, $data, $where);
+        self::$db->update(self::$entity_table, $data, $where);
     }
 
     public static function remove($id)
@@ -43,8 +43,19 @@ class Model
 
     public static function find($id)
     {
-        $where = "id = '$id'";
         new static();
-        self::$db->single(self::$entity_table, $where);
+        self::$ID = $id;
+        $where = "id = '$id'";
+        self::$db->select(self::$entity_table, $where);
+
+        return self::$db->singleObject(self::$entity_class);
+    }
+
+    public static function findAll()
+    {
+        new static();
+        self::$db->select(self::$entity_table);
+
+        return self::$db->objectSet(self::$entity_class);
     }
 }
