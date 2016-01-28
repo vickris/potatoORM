@@ -1,4 +1,4 @@
-<?php
+  <?php
 
 require 'Database.php';
 require 'Model.php';
@@ -21,6 +21,6 @@ class Person extends Model
     }
 }
 
-Person::remove(26);
+echo print_r(Person::findAll());
 
 echo 'Saved changes successfully';

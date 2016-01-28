@@ -52,6 +52,10 @@ class Database
         self::$statement->bindValue($param, $value, $type);
     }
 
+    /**
+     * `
+     * Execute statements passed in as queries.
+     */
     public function execute()
     {
         self::$statement->execute();
@@ -85,7 +89,7 @@ class Database
     }
 
     /**
-     * Update data.
+     * Update data in an existing row.
      */
     public function update($table, $data, $where = '')
     {
@@ -105,32 +109,12 @@ class Database
     }
 
     /**
-     * Delete Functionality.
+     * Delete row from database.
      */
     public function delete($table, $where, $limit = 1)
     {
         $this->prepare("DELETE FROM $table WHERE $where LIMIT $limit");
         $this->execute();
-    }
-
-    /**
-     * Return data as an assoc array.
-     */
-    public function resultset()
-    {
-        $this->execute();
-
-        return self::$statement->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * Return single as an assoc array.
-     */
-    public function single()
-    {
-        $this->execute();
-
-        return self::$statement->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -155,8 +139,13 @@ class Database
         return self::$statement->fetch();
     }
 
-    public function lastInsertId()
+    /**
+     * Return number of rows in the table.
+     *
+     * @return int
+     */
+    public function rowCount()
     {
-        return self::$db_handler->lastInsertId();
+        return self::$statement->rowCount();
     }
 }
