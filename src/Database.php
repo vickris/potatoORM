@@ -77,8 +77,6 @@ class Database
 
     public function insert($table, $data)
     {
-        ksort($data);
-
         $fieldNames = implode(',', array_keys($data));
         $fieldValues = ':'.implode(', :', array_keys($data));
 
@@ -89,7 +87,15 @@ class Database
             $this->bind(":$key", $value);
         }
 
-        $this->execute();
+        try {
+            $this->execute();
+
+            return true;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+
+            return false;
+        }
     }
 
     /**
@@ -97,7 +103,6 @@ class Database
      */
     public function update($table, $data, $where = '')
     {
-        ksort($data);
         $fieldDetails = null;
         foreach ($data as $key => $value) {
             $fieldDetails .= "$key = :$key,";

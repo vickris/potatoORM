@@ -5,9 +5,9 @@ namespace Vundi\Potato;
 class Model
 {
     private static $db;
-    protected static $entity_table = 'Person';
-    protected static $entity_class = 'Person';
-    protected static $db_fields = array('FName', 'LName', 'Age', 'Gender');
+    protected static $entity_table;
+    protected static $entity_class;
+    protected static $db_fields;
     public static $ID;
 
     public function __construct()
@@ -17,47 +17,53 @@ class Model
 
     public function save()
     {
-        foreach (self::$db_fields as $key) {
+        $s = new static();
+        foreach ($s::$db_fields as $key) {
             $data[$key] = $this->$key;
         }
-        self::$db->insert(self::$entity_table, $data);
+
+        return self::$db->insert($s::$entity_table, $data);
     }
 
     public function update()
     {
-        foreach (self::$db_fields as $key) {
+        $s = new static();
+        foreach ($s::$db_fields as $key) {
             if (!is_null($key)) {
                 $data[$key] = $this->$key;
             }
         }
-        $where = "id = '".self::$ID."'";
+        $where = "id = {$s::$ID}";
 
-        $where = rtrim($where, '&');
-        self::$db->update(self::$entity_table, $data, $where);
+        self::$db->update($s::$entity_table, $data, $where);
     }
 
     public static function remove($id)
     {
-        $where = "id = '$id'";
-        new static();
-        self::$db->delete(self::$entity_table, $where);
+        $where = "id = {$id}";
+        $s = new static();
+        self::$db->delete($s::$entity_table, $where);
     }
 
     public static function find($id)
     {
-        new static();
-        self::$ID = $id;
-        $where = "id = '$id'";
-        self::$db->select(self::$entity_table, $where);
+        $s = new static();
 
-        return self::$db->singleObject(self::$entity_class);
+        //comment
+        $s::$ID = $id;
+
+        $where = "id = {$id}";
+        self::$db->select($s::$entity_table, $where);
+
+        return self::$db->singleObject($s::$entity_class);
     }
 
     public static function findAll()
     {
-        new static();
-        self::$db->select(self::$entity_table);
+        $s = new static();
 
-        return self::$db->objectSet(self::$entity_class);
+        self::$db->select($s::$entity_table);
+
+        return self::$db->objectSet($s::$entity_class);
     }
 }

@@ -13,8 +13,7 @@ class Person extends Model
 
     protected static $entity_table = 'Person';
     protected static $entity_class = 'Person';
-    protected static $db_fields = array('ID', 'FName', 'LName', 'Age', 'Gender');
-    public $primary_keys = array('ID');
+    protected static $db_fields = array('FName', 'LName', 'Age', 'Gender');
 
     public function info()
     {
@@ -22,6 +21,6 @@ class Person extends Model
     }
 }
 
-echo print_r(Person::findAll());
+Person::remove(33);
 
 echo 'Saved changes successfully';
