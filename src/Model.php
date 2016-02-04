@@ -7,7 +7,7 @@ class Model
     private static $db;
     protected static $entity_table;
     protected static $entity_class;
-    protected static $db_fields;
+    protected $db_fields = [];
     public static $ID;
 
     public function __construct()
@@ -15,27 +15,30 @@ class Model
         self::$db = new Database();
     }
 
+    public function __set($key, $value)
+    {
+        $this->db_fields[$key] = $value;
+    }
+
     public function save()
     {
-        $s = new static();
-        foreach ($s::$db_fields as $key) {
-            $data[$key] = $this->$key;
-        }
+        //var_dump($this->db_fields);
+        //$s = new static();
+        // foreach ($s::$db_fields as $key) {
+        //     $data[$key] = $this->$key;
+        // }
 
-        return self::$db->insert($s::$entity_table, $data);
+        return self::$db->insert('Person', $this->db_fields);
     }
 
     public function update()
     {
+        var_dump($this);
         $s = new static();
-        foreach ($s::$db_fields as $key) {
-            if (!is_null($key)) {
-                $data[$key] = $this->$key;
-            }
-        }
+
         $where = "id = {$s::$ID}";
 
-        self::$db->update($s::$entity_table, $data, $where);
+        self::$db->update($s::$entity_table, $this->db_fields, $where);
     }
 
     public static function remove($id)

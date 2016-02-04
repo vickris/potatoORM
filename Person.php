@@ -6,14 +6,8 @@ use Vundi\Potato\Model;
 
 class Person extends Model
 {
-    public $FName;
-    public $LName;
-    public $Age;
-    public $Gender;
-
     protected static $entity_table = 'Person';
     protected static $entity_class = 'Person';
-    protected static $db_fields = array('FName', 'LName', 'Age', 'Gender');
 
     public function info()
     {
@@ -21,6 +15,9 @@ class Person extends Model
     }
 }
 
-Person::remove(33);
+$person = Person::find(20);
+$person->FName = 'Ganga';
+$person->LName = 'Chris';
+$person->update();
 
 echo 'Saved changes successfully';
