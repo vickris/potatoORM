@@ -23,17 +23,16 @@ class Model
     public function save()
     {
         //var_dump($this->db_fields);
-        //$s = new static();
+        $s = new static();
         // foreach ($s::$db_fields as $key) {
         //     $data[$key] = $this->$key;
         // }
 
-        return self::$db->insert('Person', $this->db_fields);
+        return self::$db->insert($s::$entity_table, $this->db_fields);
     }
 
     public function update()
     {
-        var_dump($this);
         $s = new static();
 
         $where = "id = {$s::$ID}";

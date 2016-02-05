@@ -3,21 +3,28 @@
 namespace Vundi\Potato;
 
 use PDO;
+use PDOException;
 
 class Database
 {
     //Instance variables for db connection
-    private $host = 'localhost';
-    private $user = 'root';
-    private $pass = '';
-    private $dbname = 'potato';
-    private $dbtype = 'mysql';
+    private $host;
+    private $user;
+    private $pass;
+    private $dbname;
+    private $dbtype;
 
     private static $db_handler;
     private static $statement;
 
     public function __construct()
     {
+        $this->host = getenv('DB_HOST');
+        $this->user = getenv('DB_USER');
+        $this->pass = getenv('DB_PASS');
+        $this->dbname = getenv('DB_NAME');
+        $this->dbtype = getenv('DB_TYPE');
+
         $dsn = $this->dbtype.':host='.$this->host.';dbname='.$this->dbname;
         $options = array(
             PDO::ATTR_PERSISTENT => true,
@@ -91,8 +98,8 @@ class Database
             $this->execute();
 
             return true;
-        } catch (Exception $e) {
-            echo $e->getMessage();
+        } catch (PDOException $e) {
+            echo $e->errorInfo[2];
 
             return false;
         }
@@ -114,7 +121,15 @@ class Database
         foreach ($data as $key => $value) {
             $this->bind(":$key", $value);
         }
-        $this->execute();
+        try {
+            $this->execute();
+
+            return true;
+        } catch (PDOException $e) {
+            echo $e->errorInfo[2];
+
+            return false;
+        }
     }
 
     /**
@@ -123,16 +138,23 @@ class Database
     public function delete($table, $where, $limit = 1)
     {
         $this->prepare("DELETE FROM $table WHERE $where LIMIT $limit");
-        $this->execute();
+
+        try {
+            $this->execute();
+
+            return true;
+        } catch (PDOException $e) {
+            var_dump($e);
+        }
     }
 
     /**
      * Return Objectset.
      */
-    public function objectSet($entityClass)
+    public function objectSet()
     {
         $this->execute();
-        self::$statement->setFetchMode(PDO::FETCH_CLASS, $entityClass);
+        self::$statement->setFetchMode(PDO::FETCH_ASSOC);
 
         return self::$statement->fetchAll();
     }

@@ -15,9 +15,10 @@ class Person extends Model
     }
 }
 
-$person = Person::find(20);
-$person->FName = 'Ganga';
-$person->LName = 'Chris';
-$person->update();
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
+echo __DIR__;
+Person::remove(2344);
 
-echo 'Saved changes successfully';
+//echo 'Saved changes successfully';
+
