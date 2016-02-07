@@ -14,7 +14,7 @@ class Database
     private $dbname;
     private $dbtype;
 
-    private static $db_handler;
+    public static $db_handler;
     private static $statement;
 
     public function __construct()

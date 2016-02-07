@@ -9,10 +9,6 @@ use Vundi\Potato\Model;
  */
 class Car extends Model
 {
-    public $make;
-    public $year;
-
-    protected static $entity_table = 'car';
-    protected static $entity_class = 'Car';
-    protected static $db_fields = array('make', 'year');
+    public static $entity_table = 'Car';
+    public static $entity_class = 'Car';
 }
