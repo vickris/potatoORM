@@ -137,14 +137,19 @@ class Database
      */
     public function delete($table, $where, $limit = 1)
     {
-        $this->prepare("DELETE FROM $table WHERE $where LIMIT $limit");
-
         try {
+            $this->prepare("DELETE FROM $table WHERE $where LIMIT $limit");
             $this->execute();
 
+            $num = $this->rowCount();
+
+            if ($num < 1) {
+                throw new \Exception('Cannot delete the record with that ID since it is non existent');
+            }
+
             return true;
-        } catch (PDOException $e) {
-            return false;
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
     }
 

@@ -19,7 +19,7 @@ $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
 try {
-    Person::remove(4554);
+    Person::remove(38);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
