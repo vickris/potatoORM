@@ -144,7 +144,7 @@ class Database
 
             return true;
         } catch (PDOException $e) {
-            var_dump($e);
+            return false;
         }
     }
 
@@ -166,8 +166,13 @@ class Database
     {
         $this->execute();
         self::$statement->setFetchMode(PDO::FETCH_CLASS, $entityClass);
+        $results = self::$statement->fetch();
 
-        return self::$statement->fetch();
+        if (empty($results)) {
+            throw new \Exception('Could not find tht record, pass a record ID that exists', 1);
+        } else {
+            return $results;
+        }
     }
 
     /**

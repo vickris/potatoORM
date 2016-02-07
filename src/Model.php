@@ -42,22 +42,29 @@ class Model
 
     public static function remove($id)
     {
-        $where = "id = {$id}";
-        $s = new static();
-        self::$db->delete($s::$entity_table, $where);
+        if (is_int($id)) {
+            $where = "id = {$id}";
+            $s = new static();
+            self::$db->delete($s::$entity_table, $where);
+        } else {
+            throw new \Exception('Pass in an ID as the parameter, ID has to be a number', 1);
+        }
     }
 
     public static function find($id)
     {
-        $s = new static();
+        if (is_int($id)) {
+            $s = new static();
+            //comment
+            $s::$ID = $id;
 
-        //comment
-        $s::$ID = $id;
+            $where = "id = {$id}";
+            self::$db->select($s::$entity_table, $where);
 
-        $where = "id = {$id}";
-        self::$db->select($s::$entity_table, $where);
-
-        return self::$db->singleObject($s::$entity_class);
+            return self::$db->singleObject($s::$entity_class);
+        } else {
+            throw new \Exception('Find only takes a number as a parameter', 1);
+        }
     }
 
     public static function findAll()

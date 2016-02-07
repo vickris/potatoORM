@@ -17,8 +17,12 @@ class Person extends Model
 
 $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
-echo __DIR__;
-Person::remove(2344);
+
+try {
+    Person::remove(4554);
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 
 //echo 'Saved changes successfully';
 
