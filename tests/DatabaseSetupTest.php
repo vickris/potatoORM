@@ -52,7 +52,6 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $sql = 'DROP TABLE Car';
-        var_dump(Database::$db_handler);
         $statement = Database::$db_handler->prepare($sql);
         $statement->execute();
     }

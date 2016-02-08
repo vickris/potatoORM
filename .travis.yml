@@ -11,8 +11,8 @@ matrix:
   allow_failures:
     - php: 7.0
 
-services:
-  - mysql
+env:
+  - DB=mysql
 
 before_script:
   - travis_retry composer self-update
