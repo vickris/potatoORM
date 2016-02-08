@@ -4,7 +4,7 @@ POTATO ORM is a custom ORM that allows you to perform all CRUD operations on a t
 
 ## Install
 
-Via Composer
+Installation via Composer
 
 ``` bash
 $ composer require vundi/potato-orm
