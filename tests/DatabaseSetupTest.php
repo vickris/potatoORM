@@ -27,6 +27,8 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
         $statement = Database::$db_handler->prepare($sql);
         $statement->execute();
 
+        $this->seedData();
+
         $this->car = new Car();
     }
 
@@ -68,9 +70,55 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($condition);
     }
 
-    public function testAll()
+    public function testFindAll()
     {
         $collection = Car::findAll();
-        $this->assertEquals(3, count($collection));
+        $this->assertCount(3, $collection);
+    }
+
+    // public function testFindOne()
+    // {
+    //     $car = Car::find(1);
+    //     $this->assertArrayHasKey('make', $car);
+    //     $this->assertEquals('Mercedes', $car['make']);
+    // }
+
+    // public function testUpdateFunction()
+    // {
+    //     $this->car = Car::find(1);
+    //     $this->car['make'] = 'Porshe';
+    //     $this->car->update();
+    //     var_dump($car);
+    // }
+
+    public function testDeleteWorks()
+    {
+        $res = Car::remove(1);
+        $count = Car::findAll();
+        $this->assertCount(2, $count);
+    }
+
+    /**
+     * @expectedException Vundi\Potato\Exceptions\NonExistentID
+     */
+    public function testThrowsExceptionWhenDeletingNonExistentId()
+    {
+        $res = Car::remove(23444);
+    }
+
+    /**
+     * @expectedException Vundi\Potato\Exceptions\IDShouldBeNumber
+     */
+    public function testThrowsExceptionWhenIDPassedIsNotANumber()
+    {
+        $res = Car::remove('water');
+    }
+
+    /**
+     * @expectedException Vundi\Potato\Exceptions\NonExistentID
+     */
+    public function testThrowsExceptionWhenFindingANonExiestentRecord()
+    {
+        $res = Car::find(23444);
     }
 }

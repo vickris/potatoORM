@@ -2,6 +2,8 @@
 
 namespace Vundi\Potato;
 
+use Vundi\Potato\Exceptions\IDShouldBeNumber;
+
 class Model
 {
     private static $db;
@@ -47,7 +49,7 @@ class Model
             $s = new static();
             self::$db->delete($s::$entity_table, $where);
         } else {
-            throw new \Exception('Pass in an ID as the parameter, ID has to be a number', 1);
+            throw new IDShouldBeNumber('Pass in an ID as the parameter, ID has to be a number', 1);
         }
     }
 
@@ -63,7 +65,7 @@ class Model
 
             return self::$db->singleObject($s::$entity_class);
         } else {
-            throw new \Exception('Find only takes a number as a parameter', 1);
+            throw new IDShouldBeNumber('Find only takes a number as a parameter', 1);
         }
     }
 
@@ -73,6 +75,6 @@ class Model
 
         self::$db->select($s::$entity_table);
 
-        return self::$db->objectSet($s::$entity_class);
+        return self::$db->objectSet();
     }
 }

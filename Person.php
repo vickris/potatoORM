@@ -3,6 +3,8 @@
 require 'vendor/autoload.php';
 
 use Vundi\Potato\Model;
+use Vundi\Potato\Exceptions\NonExistentID;
+use Vundi\Potato\Exceptions\IDShouldBeNumber;
 
 class Person extends Model
 {
@@ -14,8 +16,10 @@ $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
 try {
-    var_dump(Person::findAll());
-} catch (Exception $e) {
+    var_dump(Person::find('water'));
+} catch (NonExistentID $e) {
+    echo $e->getMessage();
+} catch (IDShouldBeNumber $e) {
     echo $e->getMessage();
 }
 

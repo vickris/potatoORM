@@ -4,6 +4,7 @@ namespace Vundi\Potato;
 
 use PDO;
 use PDOException;
+use Vundi\Potato\Exceptions\NonExistentID;
 
 class Database
 {
@@ -137,19 +138,13 @@ class Database
      */
     public function delete($table, $where, $limit = 1)
     {
-        try {
-            $this->prepare("DELETE FROM $table WHERE $where LIMIT $limit");
-            $this->execute();
+        $this->prepare("DELETE FROM $table WHERE $where LIMIT $limit");
 
-            $num = $this->rowCount();
+        $this->execute();
+        $num = $this->rowCount();
 
-            if ($num < 1) {
-                throw new \Exception('Cannot delete the record with that ID since it is non existent');
-            }
-
-            return true;
-        } catch (\Exception $e) {
-            echo $e->getMessage();
+        if ($num < 1) {
+            throw new NonExistentID('Cannot delete the record with that ID since it is non existent');
         }
     }
 
@@ -174,7 +169,7 @@ class Database
         $results = self::$statement->fetch();
 
         if (empty($results)) {
-            throw new \Exception('Could not find tht record, pass a record ID that exists', 1);
+            throw new NonExistentID('Could not find that record, pass a record ID that exists', 1);
         } else {
             return $results;
         }
