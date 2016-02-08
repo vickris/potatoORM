@@ -31,6 +31,9 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
         self::seedData();
     }
 
+    /**
+     * Will be called before every test is run.
+     */
     public function setup()
     {
         $this->car = new Car();
