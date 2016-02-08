@@ -13,7 +13,7 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         try {
-            $dotenv = new Dotenv(substr(__DIR__, 0, -5));
+            $dotenv = new Dotenv(__DIR__);
             $dotenv->load();
         } catch (Exception $e) {
             // in heroku we don't have .env
