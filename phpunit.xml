@@ -23,14 +23,11 @@
         <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
     <php>
-
+        <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="DB_HOST" value="localhost"></env>
-        <env name="DB_NAME" value="test"></env>
-        <env name="DB_PASS" value=""></env>
-        <env name="DB_USER" value="root"></env>
-        <env name="DB_TYPE" value="mysql"></env>
+        <env name="DB_NAME" value="poatato.db"></env>
+        <env name="DB_TYPE" value="sqlite"></env>
     </php>
 </phpunit>

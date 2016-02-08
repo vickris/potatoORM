@@ -10,7 +10,7 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
 {
     protected $car;
     protected $DB;
-    public function setUp()
+    public static function setUpBeforeClass()
     {
         try {
             $dotenv = new Dotenv(substr(__DIR__, 0, -5));
@@ -19,20 +19,24 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
             // in heroku we don't have .env
         }
         new Database();
-        $sql = 'CREATE TABLE Car'
-            .' (ID INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,'
-            .' make TEXT,'
-            .' year INT);';
+        $sql = 'CREATE TABLE IF NOT EXISTS `Car`  (
+            `ID`    INTEGER PRIMARY KEY AUTOINCREMENT,
+            `make`  TEXT,
+            `Year`  INTEGER
+        );';
 
         $statement = Database::$db_handler->prepare($sql);
         $statement->execute();
 
-        $this->seedData();
+        self::seedData();
+    }
 
+    public function setup()
+    {
         $this->car = new Car();
     }
 
-    public function seedData()
+    public static function seedData()
     {
         $sql1 = 'INSERT INTO Car (make, year) '.
                 "VALUES ('Mercedes', 1994)";
@@ -49,7 +53,7 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
         $statement3->execute();
     }
 
-    public function tearDown()
+    public static function tearDownAfterClass()
     {
         $sql = 'DROP TABLE Car';
         $statement = Database::$db_handler->prepare($sql);
@@ -58,7 +62,6 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
 
     public function testTableName()
     {
-        echo Car::$entity_table;
         $this->assertEquals('Car', Car::$entity_table);
     }
 
@@ -73,7 +76,7 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
     public function testFindAll()
     {
         $collection = Car::findAll();
-        $this->assertCount(3, $collection);
+        $this->assertCount(4, $collection);
     }
 
     public function testFindOne()
@@ -95,7 +98,7 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
     {
         $res = Car::remove(1);
         $count = Car::findAll();
-        $this->assertCount(2, $count);
+        $this->assertCount(3, $count);
     }
 
     /**

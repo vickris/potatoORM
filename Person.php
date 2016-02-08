@@ -16,7 +16,7 @@ $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
 try {
-    var_dump(Person::find('water'));
+    var_dump(Person::find(2));
 } catch (NonExistentID $e) {
     echo $e->getMessage();
 } catch (IDShouldBeNumber $e) {

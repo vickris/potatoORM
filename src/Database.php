@@ -26,14 +26,17 @@ class Database
         $this->dbname = getenv('DB_NAME');
         $this->dbtype = getenv('DB_TYPE');
 
-        $dsn = $this->dbtype.':host='.$this->host.';dbname='.$this->dbname;
-        $options = array(
-            PDO::ATTR_PERSISTENT => true,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            );
-
         try {
-            self::$db_handler = new PDO($dsn, $this->user, $this->pass, $options);
+            if ($this->dbtype == 'sqlite') {
+                $dsn = $this->dbtype.':'.$this->dbname;
+                self::$db_handler = new PDO($dsn);
+            } else {
+                $dsn = $this->dbtype.':host='.$this->host.';dbname='.$this->dbname;
+                self::$db_handler = new PDO($dsn, $this->user, $this->pass);
+            }
+
+            self::$db_handler->setAttribute(PDO::ATTR_PERSISTENT, true);
+            self::$db_handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             echo $e->getmessage();
         }
@@ -136,9 +139,9 @@ class Database
     /**
      * Delete row from database.
      */
-    public function delete($table, $where, $limit = 1)
+    public function delete($table, $where)
     {
-        $this->prepare("DELETE FROM $table WHERE $where LIMIT $limit");
+        $this->prepare("DELETE FROM $table WHERE $where");
 
         $this->execute();
         $num = $this->rowCount();
