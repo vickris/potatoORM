@@ -18,6 +18,7 @@ before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
   - mysql -e "create database IF NOT EXISTS test;" -uroot
+  - mysql -e "use test;create table if not exists users (id int not null, name varchar(20));describe users;" -uroot
 
 script:
   - export CI_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER
