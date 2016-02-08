@@ -18,7 +18,7 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
         } catch (Exception $e) {
             // in heroku we don't have .env
         }
-        $this->DB = new Database();
+        new Database();
         $sql = 'CREATE TABLE Car'
             .' (ID INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,'
             .' make TEXT,'
@@ -52,6 +52,7 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $sql = 'DROP TABLE Car';
+        var_dump(Database::$db_handler);
         $statement = Database::$db_handler->prepare($sql);
         $statement->execute();
     }
@@ -76,12 +77,12 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
         $this->assertCount(3, $collection);
     }
 
-    // public function testFindOne()
-    // {
-    //     $car = Car::find(1);
-    //     $this->assertArrayHasKey('make', $car);
-    //     $this->assertEquals('Mercedes', $car['make']);
-    // }
+    public function testFindOne()
+    {
+        $car = Car::find(1);
+        $this->assertArrayHasKey('make', $car);
+        $this->assertEquals('Mercedes', $car['make']);
+    }
 
     // public function testUpdateFunction()
     // {
