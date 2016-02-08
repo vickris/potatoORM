@@ -1,25 +1,18 @@
-filter:
-    excluded_paths: [tests/*]
+# Required to run your project under the correct environment.
+language: php
 
-checks:
-    php:
-        code_rating: true
-        duplication: true
-        remove_extra_empty_lines: true
-        remove_php_closing_tag: true
-        remove_trailing_whitespace: true
-        fix_use_statements:
-            remove_unused: true
-            preserve_multiple: false
-            preserve_blanklines: true
-            order_alphabetically: true
-        fix_php_opening_tag: true
-        fix_linefeed: true
-        fix_line_ending: true
-        fix_identation_4spaces: true
-        fix_doc_comments: true
+php:
+ - 5.6
 
-tools:
-    external_code_coverage:
-        timeout: 600
-        runs: 3
+# Commands to be run before your environment runs.
+before_script:
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+  - composer require satooshi/php-coveralls
+  - mkdir -p build/logs
+
+ # Commands you want to run that will verify your build.
+script: phpunit
+
+after_script:
+ - php vendor/bin/coveralls -v
