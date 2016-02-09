@@ -9,16 +9,22 @@ use Vundi\Potato\Database;
 class DatabaseSetupTest extends PHPUnit_Framework_TestCase
 {
     protected $car;
-    protected $DB;
+
+    /**
+     * Will be called before any test has run
+     */
     public static function setUpBeforeClass()
     {
         try {
+            //load teh dot env variables for connection
             $dotenv = new Dotenv(__DIR__);
             $dotenv->load();
         } catch (Exception $e) {
-            // in heroku we don't have .env
+            echo $e->getMessage();
         }
+
         new Database();
+
         $sql = 'CREATE TABLE IF NOT EXISTS `Car`  (
             `ID`    INTEGER PRIMARY KEY AUTOINCREMENT,
             `make`  TEXT,
@@ -39,6 +45,9 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
         $this->car = new Car();
     }
 
+    /**
+     * Prepopulate the database with data
+     */
     public static function seedData()
     {
         $sql1 = 'INSERT INTO Car (make, year) '.
@@ -56,6 +65,9 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
         $statement3->execute();
     }
 
+    /**
+     * Will be called after all the tests have run
+     */
     public static function tearDownAfterClass()
     {
         $sql = 'DROP TABLE Car';
@@ -63,11 +75,18 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
         $statement->execute();
     }
 
+    /**
+     * Tests if the table name Passed in the class is to that created in the
+     * database
+     */
     public function testTableName()
     {
         $this->assertEquals('Car', Car::$entity_table);
     }
 
+    /**
+     * Test to see if save is working accordingly
+     */
     public function testSave()
     {
         $this->car->make = 'BMW';
@@ -76,27 +95,36 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($condition);
     }
 
+    /**
+     * Test to see all records are fetched by the find all method
+     */
     public function testFindAll()
     {
         $collection = Car::findAll();
         $this->assertCount(4, $collection);
     }
 
+    /**
+     * Test to confirm the object returned has an ID that matched the
+     * id passed in the find method
+     */
     public function testFindOne()
     {
         $car = Car::find(1);
-        $this->assertArrayHasKey('make', $car);
         $this->assertEquals('Mercedes', $car['make']);
     }
 
     // public function testUpdateFunction()
     // {
-    //     $this->car = Car::find(1);
-    //     $this->car['make'] = 'Porshe';
-    //     $this->car->update();
-    //     var_dump($car);
+    //     $car = Car::find(1);
+    //     $car['make'] = 'Porshe';
+    //     $car->update();
     // }
 
+    /**
+     * Confirm that the delete method deletes the record
+     * with the id that has been passed as a parameter
+     */
     public function testDeleteWorks()
     {
         $res = Car::remove(1);

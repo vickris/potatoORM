@@ -81,7 +81,7 @@ class Database
                     $type = PDO::PARAM_STR;
             }
         }
-        //the run PDO bindValue on the statement to bind the values
+        //then run PDO bindValue on the statement to bind the values
         self::$statement->bindValue($param, $value, $type);
     }
 
@@ -199,10 +199,10 @@ class Database
     /**
      * Return single object.
      */
-    public function singleObject($entityClass)
+    public function singleObject($entity_class)
     {
         $this->execute();
-        self::$statement->setFetchMode(PDO::FETCH_CLASS, $entityClass);
+        self::$statement->setFetchMode(PDO::FETCH_CLASS, $entity_class);
         $results = self::$statement->fetch();
 
         if (empty($results)) {

@@ -16,9 +16,12 @@ class Person extends Model
     $dotenv->load();
 
 try {
+    //var_dump(Person::findAll());
     $person = Person::find(36);
-    $person->FName = "Karis";
+    $person->FName = "Kisooo";
     $person->update();
+
+    echo "success";
 
 } catch (NonExistentID $e) {
     echo $e->getMessage();
