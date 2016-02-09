@@ -11,9 +11,13 @@ matrix:
   allow_failures:
     - php: 7.0
 
+services:
+  - mysql
+
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - mysql -e "create database IF NOT EXISTS potato;" -uroot
   - cp .env.travis .env
 
 script:

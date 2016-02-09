@@ -16,7 +16,10 @@ $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
 try {
-    var_dump(Person::find(2));
+    $person = Person::find(36);
+    $person->Age = 23;
+    $person->cat = 'Male';
+    $person->update();
 } catch (NonExistentID $e) {
     echo $e->getMessage();
 } catch (IDShouldBeNumber $e) {
