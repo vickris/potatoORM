@@ -27,6 +27,7 @@ class Database
         $this->dbtype = getenv('DB_TYPE');
 
         try {
+            //get a new pdo connection depending on the database driver specified
             if ($this->dbtype == 'sqlite') {
                 $dsn = $this->dbtype.':'.$this->dbname;
                 self::$db_handler = new PDO($dsn);
@@ -35,18 +36,34 @@ class Database
                 self::$db_handler = new PDO($dsn, $this->user, $this->pass);
             }
 
+            /**
+             * set attributes
+             * PDO::ATTR_PERSISTENT sets the connection type to the database to be persistent
+             * PDO::ATTR_ERRMODE will make PDO use exceptions to handle errors
+             */
             self::$db_handler->setAttribute(PDO::ATTR_PERSISTENT, true);
             self::$db_handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
+            //echo any errors that might occur during connection
             echo $e->getmessage();
         }
     }
 
+    /**
+     * prepare statements prevent sql injection
+     * by allowing you to bind values into your SQL statements
+     */
     public function prepare($query)
     {
         self::$statement = self::$db_handler->prepare($query);
     }
 
+    /**
+     * bind the inputs with the placeholders we put in place
+     * @param  string $param placeholdder name eg :name
+     * @param  $value actual value that we want to bind to the placeholder e.g. Prosper
+     * @param  sttring $type is the datatype of the parameter, example string.
+     */
     public function bind($param, $value, $type = null)
     {
         if (is_null($type)) {
@@ -64,18 +81,22 @@ class Database
                     $type = PDO::PARAM_STR;
             }
         }
+        //the run PDO bindValue on the statement to bind the values
         self::$statement->bindValue($param, $value, $type);
     }
 
     /**
-     * `
-     * Execute statements passed in as queries.
+     * Executes the prepared statement
      */
     public function execute()
     {
         self::$statement->execute();
     }
 
+    /**
+     * The select method allows to to specify different inputs to enable
+     *  you to run various select queries.
+     */
     public function select($table, $where = '', $fields = '*', $order = '', $limit = null, $offset = '')
     {
         $query = "SELECT $fields FROM $table "
@@ -86,6 +107,13 @@ class Database
         $this->prepare($query);
     }
 
+    /**
+     * Insert data into the table
+     * @param  string $table table in which you want to insert values
+     * @param  array $data  an array containing names of fields and the
+     * data ypu want to enter
+     * @return BOOL true or false depending on the success
+     */
     public function insert($table, $data)
     {
         $fieldNames = implode(',', array_keys($data));
@@ -94,6 +122,9 @@ class Database
         $query = "INSERT INTO $table ($fieldNames) VALUES($fieldValues)";
         $this->prepare($query);
 
+        /**
+         * Iterate through data then bind the values
+         */
         foreach ($data as $key => $value) {
             $this->bind(":$key", $value);
         }
@@ -110,7 +141,10 @@ class Database
     }
 
     /**
-     * Update data in an existing row.
+     * Update data in the table
+     * @param  string $table Table to be updated
+     * @param  array $data  Key value pairs which you want to update
+     * @param  string $where condition, in our case ID
      */
     public function update($table, $data, $where = '')
     {
@@ -152,7 +186,7 @@ class Database
     }
 
     /**
-     * Return Objectset.
+     * Return an array containing all the records
      */
     public function objectSet()
     {
@@ -179,8 +213,7 @@ class Database
     }
 
     /**
-     * Return number of rows in the table.
-     *
+     * returns the number of effected rows from the previous delete, update or insert statement
      * @return int
      */
     public function rowCount()

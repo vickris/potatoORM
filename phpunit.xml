@@ -27,7 +27,5 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="DB_NAME" value="poatato.db"></env>
-        <env name="DB_TYPE" value="sqlite"></env>
     </php>
 </phpunit>

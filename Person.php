@@ -1,4 +1,4 @@
-  <?php
+<?php
 
 require 'vendor/autoload.php';
 
@@ -12,14 +12,14 @@ class Person extends Model
     protected static $entity_class = 'Person';
 }
 
-$dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv->load();
+    $dotenv = new Dotenv\Dotenv(__DIR__);
+    $dotenv->load();
 
 try {
     $person = Person::find(36);
-    $person->Age = 23;
-    $person->cat = 'Male';
+    $person->FName = "Karis";
     $person->update();
+
 } catch (NonExistentID $e) {
     echo $e->getMessage();
 } catch (IDShouldBeNumber $e) {
@@ -27,4 +27,3 @@ try {
 }
 
 //echo 'Saved changes successfully';
-
