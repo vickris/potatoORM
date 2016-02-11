@@ -4,7 +4,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/andela-cvundi/potatoORM/badges/quality-score.png?b=development)](https://scrutinizer-ci.com/g/andela-cvundi/potatoORM/?branch=development)
 [![Software License][ico-license]](LICENSE.md)
 
-POTATO ORM is a custom ORM that allows you to perform all CRUD operations on a table when working with any dtabase
+POTATO ORM is a custom ORM that allows you to perform all CRUD operations on a table when working with any database
 
 ## Install
 
