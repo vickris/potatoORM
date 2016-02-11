@@ -12,11 +12,11 @@ class Person extends Model
 }
 
 try {
-    //var_dump(Person::findAll());
+    var_dump(Person::findAll());
 
-    $person = Person::find(29);
-    $person->FName = "Koech";
-    $person->update();
+    // $person = Person::find(29);
+    // $person->FName = "Koech";
+    // $person->update();
 
 
     /*$person = new Person();
