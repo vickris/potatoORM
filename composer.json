@@ -1,6 +1,6 @@
 {
     "name": "vundi/potato-orm",
-    "description": "An ORM package that alllows you to perform basic CRUD operations on any database",
+    "description": "An ORM package that allows you to perform basic CRUD operations on any database",
     "keywords": ["ORM", "PDO", "CRUD", "DATABASE"],
     "homepage": "https://github.com/andela-cvundi/potatoORM",
     "type": "library",
