@@ -28,7 +28,7 @@ $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 ```
 
-Once we have a connection, we create a model class which extends Model. Inside the model class set the entity table name and entity class
+Once we have a connection, we create a model class which extends Model. Inside the model class set the entity table name
 ``` php
 require 'vendor/autoload.php';
 
@@ -39,7 +39,6 @@ use Vundi\Potato\Exceptions\IDShouldBeNumber;
 class User extends Model
 {
 	protected static $entity_table = 'Person';
-    protected static $entity_class = 'Person';
 }
 ```
 
@@ -78,11 +77,6 @@ Delete a user
 User::remove(2); // 2 represents the id of the user to be removed
 ```
 
-## Testing
-
-``` bash
-$ composer test
-```
 
 ## Credits
 
