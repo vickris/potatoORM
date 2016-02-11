@@ -16,7 +16,7 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         try {
-            //load teh dot env variables for connection
+            //load the dot env variables for connection
             $dotenv = new Dotenv(__DIR__);
             $dotenv->load();
         } catch (Exception $e) {
@@ -111,15 +111,19 @@ class DatabaseSetupTest extends PHPUnit_Framework_TestCase
     public function testFindOne()
     {
         $car = Car::find(1);
-        $this->assertEquals('Mercedes', $car['make']);
+        $this->assertEquals('Mercedes', $car->db_fields['make']);
     }
 
-    // public function testUpdateFunction()
-    // {
-    //     $car = Car::find(1);
-    //     $car['make'] = 'Porshe';
-    //     $car->update();
-    // }
+    /**
+     * Test to assert Update function works fine
+     */
+    public function testUpdateFunction()
+    {
+        $car = Car::find(1);
+        $car->make = 'Porshe';
+        $car->update();
+        $this->assertEquals('Porshe', $car->db_fields['make']);
+    }
 
     /**
      * Confirm that the delete method deletes the record
