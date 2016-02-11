@@ -7,14 +7,14 @@ use Vundi\Potato\Exceptions\IDShouldBeNumber;
 class Model
 {
     private static $db;
-    protected static $entity_table;
-    protected static $entity_class;
-    protected $db_fields = [];
+    public $db_fields = [];
     public static $ID;
+    protected static $child_class;
 
     public function __construct()
     {
         self::$db = new Database();
+        self::$child_class = get_called_class();
     }
 
     /**
@@ -71,6 +71,8 @@ class Model
      */
     public static function find($id)
     {
+        // var_dump(get_called_class());
+        // die();
         $s = new static();
 
         if (is_int($id)) {
@@ -81,7 +83,7 @@ class Model
             $where = "id = {$id}";
             self::$db->select($s::$entity_table, $where);
 
-            return self::$db->singleObject($s::$entity_class);
+            return self::$db->singleObject(self::$child_class);
         } else {
             throw new IDShouldBeNumber('Find only takes a number as a parameter', 1);
         }
