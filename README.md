@@ -1,6 +1,6 @@
 # POTATO ORM
 [![Build Status](https://travis-ci.org/andela-cvundi/potatoORM.svg?branch=master)](https://travis-ci.org/andela-cvundi/potatoORM)
-[![Coverage Status](https://coveralls.io/repos/github/andela-cvundi/potatoORM/badge.svg?branch=development)](https://coveralls.io/github/andela-cvundi/potatoORM?branch=development)
+[![Coverage Status](https://coveralls.io/repos/github/andela-cvundi/potatoORM/badge.svg?branch=master)](https://coveralls.io/github/andela-cvundi/potatoORM?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/andela-cvundi/potatoORM/badges/quality-score.png?b=development)](https://scrutinizer-ci.com/g/andela-cvundi/potatoORM/?branch=development)
 [![Software License][ico-license]](LICENSE.md)
 
