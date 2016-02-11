@@ -9,20 +9,24 @@ use Vundi\Potato\Exceptions\IDShouldBeNumber;
 class Person extends Model
 {
     protected static $entity_table = 'Person';
-    protected static $entity_class = 'Person';
 }
-
-    $dotenv = new Dotenv\Dotenv(__DIR__);
-    $dotenv->load();
 
 try {
     //var_dump(Person::findAll());
-    $person = Person::find(36);
-    $person->FName = "Kisooo";
+
+    $person = Person::find(29);
+    $person->FName = "Koech";
     $person->update();
 
-    echo "success";
 
+    /*$person = new Person();
+    $person->FName = "Mahad";
+    $person->gshdh = "Kimeu";
+    $person->Age = 33;
+    $person->save();*/
+
+
+    //Person::remove('gshd');
 } catch (NonExistentID $e) {
     echo $e->getMessage();
 } catch (IDShouldBeNumber $e) {
