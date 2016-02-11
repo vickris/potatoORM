@@ -5,6 +5,7 @@ namespace Vundi\Potato;
 use PDO;
 use PDOException;
 use Vundi\Potato\Exceptions\NonExistentID;
+use Dotenv;
 
 class Database
 {
@@ -14,12 +15,16 @@ class Database
     private $pass;
     private $dbname;
     private $dbtype;
+    public $dotenv;
 
     public static $db_handler;
     private static $statement;
 
     public function __construct()
     {
+        $this->dotenv = new Dotenv\Dotenv(substr(__DIR__, 0, -3));
+        $this->dotenv->load();
+
         $this->host = getenv('DB_HOST');
         $this->user = getenv('DB_USER');
         $this->pass = getenv('DB_PASS');
