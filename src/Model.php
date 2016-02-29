@@ -89,6 +89,32 @@ class Model
         }
     }
 
+    public static function findWhere($conditions = array(), $fields = '*', $order = '', $limit = null, $offset = '')
+    {
+        $s = new static();
+        $where = '';
+        foreach ($conditions as $key => $value) {
+            if (is_string($value)) {
+                $where .= ' '.$key.' ="'.$value.'"'.' &&';
+            } else {
+                $where .= ' '.$key.' = '.$value.' &&';
+            }
+        }
+        $where = rtrim($where, '&');
+        self::$db->select($s::$entity_table, $where, $fields, $order, $limit, $offset);
+
+        return self::$db->objectSet(self::$child_class);
+    }
+
+    // public static function findWherein($query)
+    // {
+    //     $s = new static();
+    //     $results = self::$db->prepare($query);
+    //     $results->setFetchMode(PDO::FETCH_ASSOC);
+
+    //     return $results->fetch();
+    // }
+
     /**
      * Finds all records in the table
      * @return array

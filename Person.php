@@ -12,7 +12,9 @@ class Person extends Model
 }
 
 try {
-    var_dump(Person::findAll());
+
+    echo count(Person::findWhere(['FName' => 'Ganga', 'LName' => 'Chris']));
+    //var_dump(Person::findAll());
 
     // $person = Person::find(29);
     // $person->FName = "Koech";
