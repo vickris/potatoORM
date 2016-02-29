@@ -46,7 +46,7 @@ class Model
 
         $where = "id = {$s::$ID}";
 
-        self::$db->update($s::$entity_table, $this->db_fields, $where);
+        return self::$db->update($s::$entity_table, $this->db_fields, $where);
     }
 
     /**
@@ -105,15 +105,6 @@ class Model
 
         return self::$db->objectSet(self::$child_class);
     }
-
-    // public static function findWherein($query)
-    // {
-    //     $s = new static();
-    //     $results = self::$db->prepare($query);
-    //     $results->setFetchMode(PDO::FETCH_ASSOC);
-
-    //     return $results->fetch();
-    // }
 
     /**
      * Finds all records in the table
