@@ -13,7 +13,13 @@ class Person extends Model
 
 try {
 
-    echo count(Person::findWhere(['FName' => 'Ganga', 'LName' => 'Chris']));
+    $set = (Person::findWhere(['FName' => 'kimaer', 'LName' => 'Chris']));
+    if (array_key_exists('id', $set[0])) {
+        echo "Key exists in database";
+    } else {
+        echo "Key does not exist";
+    }
+
     //var_dump(Person::findAll());
 
     // $person = Person::find(29);
