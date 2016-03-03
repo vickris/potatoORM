@@ -27,7 +27,7 @@ class Database
             $this->dotenv = new Dotenv\Dotenv(substr(__DIR__, 0, -3));
             $this->dotenv->load();
         } catch (InvalidPathException $e) {
-            echo $e->getMessage();
+            return $e->getMessage();
         }
 
 
