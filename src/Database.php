@@ -6,6 +6,7 @@ use PDO;
 use PDOException;
 use Vundi\Potato\Exceptions\NonExistentID;
 use Dotenv;
+use Dotenv\Exception\InvalidPathException;
 
 class Database
 {
@@ -22,8 +23,13 @@ class Database
 
     public function __construct()
     {
-        $this->dotenv = new Dotenv\Dotenv(substr(__DIR__, 0, -3));
-        $this->dotenv->load();
+        try {
+            $this->dotenv = new Dotenv\Dotenv(substr(__DIR__, 0, -3));
+            $this->dotenv->load();
+        } catch (InvalidPathException $e) {
+
+        }
+
 
         $this->host = getenv('DB_HOST');
         $this->user = getenv('DB_USER');
