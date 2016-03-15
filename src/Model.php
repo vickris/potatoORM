@@ -92,15 +92,15 @@ class Model
     public static function findWhere($conditions = array(), $fields = '*', $order = '', $limit = null, $offset = '')
     {
         $s = new static();
-        $where = '';
+        $where = [];
         foreach ($conditions as $key => $value) {
             if (is_string($value)) {
-                $where .= ' '.$key.' ="'.$value.'"'.' &&';
+                $where[] = $key.' ="'.addslashes($value).'"';
             } else {
-                $where .= ' '.$key.' = '.$value.' &&';
+                $where[] = $key.' = '.$value;
             }
         }
-        $where = rtrim($where, '&');
+        $where = join(' && ', $where);
         self::$db->select($s::$entity_table, $where, $fields, $order, $limit, $offset);
 
         return self::$db->objectSet(self::$child_class);
