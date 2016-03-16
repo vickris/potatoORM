@@ -92,18 +92,26 @@ class Model
     public static function findWhere($conditions = array(), $fields = '*', $order = '', $limit = null, $offset = '')
     {
         $s = new static();
-        $where = [];
+        $where = self::parseWhereConditions($conditions);
+        self::$db->select($s::$entity_table, $where, $fields, $order, $limit, $offset);
+
+        return self::$db->objectSet(self::$child_class);
+    }
+    
+    private static function parseWhereConditions($conditions, $logicOp = '&&') {
         foreach ($conditions as $key => $value) {
-            if (is_string($value)) {
+            if (is_array($value)) { // support aggregating conditions with another boolean operator
+                $where[] = '(' . self::parseWhereConditions($value, $key) . ')';
+            } elseif (is_string($value)) {
                 $where[] = $key.' ="'.addslashes($value).'"';
             } else {
                 $where[] = $key.' = '.$value;
             }
         }
-        $where = join(' && ', $where);
-        self::$db->select($s::$entity_table, $where, $fields, $order, $limit, $offset);
-
-        return self::$db->objectSet(self::$child_class);
+        if (!is_string($logicOp)) // caller sent us an indexed array.
+            // they probably only have 1 condition, but better safe than sorry
+            $logicOp = '&&';
+        return join(" $logicOp ", $where);
     }
 
     /**
