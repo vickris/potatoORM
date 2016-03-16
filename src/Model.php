@@ -94,7 +94,12 @@ class Model
         $s = new static();
         $where = [];
         foreach ($conditions as $key => $value) {
-            if (is_string($value)) {
+            if (is_array($value)) { // support aggregating conditions with another boolean operator
+                $subcaluse = [];
+                foreach ($value as $subkey => $subvalue)
+                    $subclause[] = $key.' = '.(is_string($subvalue) ? '"'.addslashes($subvalue).'"' : $subvalue);
+                $where[] = '(' . join(" $key ", $subclause) . ')';
+            } elseif (is_string($value)) {
                 $where[] = $key.' ="'.addslashes($value).'"';
             } else {
                 $where[] = $key.' = '.$value;
