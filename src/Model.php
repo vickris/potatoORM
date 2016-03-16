@@ -108,6 +108,9 @@ class Model
                 $where[] = $key.' = '.$value;
             }
         }
+        if (!is_string($logicalOp)) // caller sent us an indexed array.
+            // they probably only have 1 condition, but better safe than sorry
+            $logicalOp = '&&';
         return join(" $logicOp ", $where);
     }
 
