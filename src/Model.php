@@ -124,6 +124,6 @@ class Model
 
         self::$db->select($s::$entity_table);
 
-        return self::$db->objectSet();
+        return self::$db->objectSet(self::$child_class);
     }
 }

@@ -198,11 +198,12 @@ class Database
 
     /**
      * Return an array containing all the records
+     * @param string $clazz Class name of the model implementation to load
      */
-    public function objectSet()
+    public function objectSet($clazz)
     {
         $this->execute();
-        self::$statement->setFetchMode(PDO::FETCH_ASSOC);
+        self::$statement->setFetchMode(PDO::FETCH_CLASS, $clazz);
 
         return self::$statement->fetchAll();
     }
