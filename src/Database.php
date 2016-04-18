@@ -112,9 +112,9 @@ class Database
     {
         $query = "SELECT $fields FROM $table "
                  .($where ? " WHERE $where " : '')
-                 .($order ? " ORDER BY $order " : '')
                  .($limit ? " LIMIT $limit " : '')
-                 .(($offset && $limit ? " OFFSET $offset " : ''));
+                 .(($offset && $limit ? " OFFSET $offset " : ''))
+                 .($order ? " ORDER BY $order " : '');
         $this->prepare($query);
     }
 
