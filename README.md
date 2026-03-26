@@ -48,7 +48,7 @@ Database interactions
 $user = new User;
 $user->name = "Kevin Karugu";
 $user->age = 23;
-$user->company = "Andela";
+$user->company = "Microsoft";
 $user->save();
 ```
 
